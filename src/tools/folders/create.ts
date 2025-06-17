@@ -5,7 +5,7 @@ import { FolderSchemaFields } from "../../schemas/FolderSchema";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 import Schema$Folder = tagmanager_v2.Schema$Folder;
 
-export const create = (server: McpServer): void =>
+export const create = (server: McpServer): void => {
   server.tool(
     "tag_manager_create_folder",
     "Creates a GTM Folder",
@@ -43,3 +43,4 @@ export const create = (server: McpServer): void =>
       }
     },
   );
+}

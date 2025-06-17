@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const publish = (server: McpServer): void =>
+export const publish = (server: McpServer): void => {
   server.tool(
     "tag_manager_publish_container_version",
     "Publishes a Container Version",
@@ -54,3 +54,4 @@ export const publish = (server: McpServer): void =>
       }
     },
   );
+}

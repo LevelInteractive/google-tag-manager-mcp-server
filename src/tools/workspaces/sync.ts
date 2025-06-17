@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const sync = (server: McpServer): void =>
+export const sync = (server: McpServer): void => {
   server.tool(
     "tag_manager_sync_container_workspace",
     "Syncs a workspace to the latest container version",
@@ -50,3 +50,4 @@ export const sync = (server: McpServer): void =>
       }
     },
   );
+}

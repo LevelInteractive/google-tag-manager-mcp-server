@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const moveTagId = (server: McpServer): void =>
+export const moveTagId = (server: McpServer): void => {
   server.tool(
     "tag_manager_move_tag_id",
     "Moves a Tag ID out of a Container",
@@ -85,3 +85,4 @@ export const moveTagId = (server: McpServer): void =>
       }
     },
   );
+}

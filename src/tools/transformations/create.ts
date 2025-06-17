@@ -5,7 +5,7 @@ import { TransformationSchemaFields } from "../../schemas/TransformationSchema";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 import Schema$Transformation = tagmanager_v2.Schema$Transformation;
 
-export const create = (server: McpServer): void =>
+export const create = (server: McpServer): void => {
   server.tool(
     "tag_manager_create_transformation",
     "Creates a GTM Transformation",
@@ -45,3 +45,4 @@ export const create = (server: McpServer): void =>
       }
     },
   );
+}

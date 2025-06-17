@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const create = (server: McpServer): void =>
+export const create = (server: McpServer): void => {
   server.tool(
     "tag_manager_create_built_in_variables",
     "Creates one or more GTM Built-In Variables",
@@ -64,3 +64,4 @@ export const create = (server: McpServer): void =>
       }
     },
   );
+}

@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const snippet = (server: McpServer): void =>
+export const snippet = (server: McpServer): void => {
   server.tool(
     "tag_manager_get_container_snippet",
     "Gets the tagging snippet for a container",
@@ -38,3 +38,4 @@ export const snippet = (server: McpServer): void =>
       }
     },
   );
+}

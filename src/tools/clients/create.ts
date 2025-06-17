@@ -5,7 +5,7 @@ import { ClientSchemaFields } from "../../schemas/ClientSchema";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 import Schema$Client = tagmanager_v2.Schema$Client;
 
-export const create = (server: McpServer): void =>
+export const create = (server: McpServer): void => {
   server.tool(
     "tag_manager_create_client",
     "Creates a GTM Client",
@@ -43,3 +43,4 @@ export const create = (server: McpServer): void =>
       }
     },
   );
+}

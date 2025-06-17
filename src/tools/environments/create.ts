@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { EnvironmentSchemaFields } from "../../schemas/EnvironmentSchema";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const create = (server: McpServer): void =>
+export const create = (server: McpServer): void => {
   server.tool(
     "tag_manager_create_container_environment",
     "Creates a GTM Environment",
@@ -35,3 +35,4 @@ export const create = (server: McpServer): void =>
       }
     },
   );
+}

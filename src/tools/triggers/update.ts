@@ -5,7 +5,7 @@ import { TriggerSchemaFields } from "../../schemas/TriggerSchema";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 import Schema$Trigger = tagmanager_v2.Schema$Trigger;
 
-export const update = (server: McpServer): void =>
+export const update = (server: McpServer): void => {
   server.tool(
     "tag_manager_update_trigger",
     "Updates a GTM Trigger",
@@ -46,3 +46,4 @@ export const update = (server: McpServer): void =>
       }
     },
   );
+}

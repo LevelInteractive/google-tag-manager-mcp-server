@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const getStatus = (server: McpServer): void =>
+export const getStatus = (server: McpServer): void => {
   server.tool(
     "tag_manager_get_workspace_status",
     "Finds conflicting and modified entities in the workspace",
@@ -54,3 +54,4 @@ export const getStatus = (server: McpServer): void =>
       }
     },
   );
+}

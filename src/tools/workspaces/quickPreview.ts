@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const quickPreview = (server: McpServer): void =>
+export const quickPreview = (server: McpServer): void => {
   server.tool(
     "tag_manager_quick_preview_container_workspace",
     "Quick previews a workspace by creating a fake container version",
@@ -51,3 +51,4 @@ export const quickPreview = (server: McpServer): void =>
       }
     },
   );
+}

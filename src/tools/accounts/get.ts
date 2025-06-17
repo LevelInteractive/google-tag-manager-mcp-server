@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const get = (server: McpServer): void =>
+export const get = (server: McpServer): void => {
   server.tool(
     "tag_manager_get_account",
     "Gets a GTM Account",
@@ -38,3 +38,4 @@ export const get = (server: McpServer): void =>
       }
     },
   );
+}

@@ -5,7 +5,7 @@ import { ContainerVersionSchemaFields } from "../../schemas/ContainerVersionSche
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 import Schema$ContainerVersion = tagmanager_v2.Schema$ContainerVersion;
 
-export const update = (server: McpServer): void =>
+export const update = (server: McpServer): void => {
   server.tool(
     "tag_manager_update_container_version",
     "Updates a Container Version.",
@@ -43,3 +43,4 @@ export const update = (server: McpServer): void =>
       }
     },
   );
+}

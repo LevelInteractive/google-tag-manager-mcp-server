@@ -5,7 +5,7 @@ import { TagSchemaFields } from "../../schemas/TagSchema";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 import Schema$Tag = tagmanager_v2.Schema$Tag;
 
-export const update = (server: McpServer): void =>
+export const update = (server: McpServer): void => {
   server.tool(
     "tag_manager_update_tag",
     "Updates a GTM Tag",
@@ -46,3 +46,4 @@ export const update = (server: McpServer): void =>
       }
     },
   );
+}

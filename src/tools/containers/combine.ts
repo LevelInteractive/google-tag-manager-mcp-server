@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const combine = (server: McpServer): void =>
+export const combine = (server: McpServer): void => {
   server.tool(
     "tag_manager_combine_containers",
     "Combines two GTM Containers",
@@ -61,3 +61,4 @@ export const combine = (server: McpServer): void =>
       }
     },
   );
+}

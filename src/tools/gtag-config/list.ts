@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const list = (server: McpServer): void =>
+export const list = (server: McpServer): void => {
   server.tool(
     "tag_manager_list_gtag_configs",
     "Lists all Google tag configs in a Container",
@@ -62,3 +62,4 @@ export const list = (server: McpServer): void =>
       }
     },
   );
+}

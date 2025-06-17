@@ -5,7 +5,7 @@ import { UserPermissionSchemaFields } from "../../schemas/UserPermissionSchema";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 import Schema$UserPermission = tagmanager_v2.Schema$UserPermission;
 
-export const create = (server: McpServer): void =>
+export const create = (server: McpServer): void => {
   server.tool(
     "tag_manager_create_user_permission",
     "Creates a user's Account & Container access",
@@ -37,3 +37,4 @@ export const create = (server: McpServer): void =>
       }
     },
   );
+}

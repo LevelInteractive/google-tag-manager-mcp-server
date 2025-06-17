@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const undelete = (server: McpServer): void =>
+export const undelete = (server: McpServer): void => {
   server.tool(
     "tag_manager_undelete_container_version",
     "Undeletes a Container Version",
@@ -52,3 +52,4 @@ export const undelete = (server: McpServer): void =>
       }
     },
   );
+}
