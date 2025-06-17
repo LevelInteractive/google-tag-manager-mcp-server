@@ -21,3 +21,6 @@ logs/
 
 # Build output
 dist/
+
+.env
+credentials.json
