@@ -104,8 +104,12 @@ This configuration proxies requests to your Node.js application and correctly ha
             return 404;
         }
 
-        location /mcp {
-            proxy_pass http://127.0.0.1:9231; # Match the port in your service file
+        # The 'secure-hash' can be any secret path component.
+        # The trailing slash on location and proxy_pass is important
+        # as it strips '/secure-hash/mcp' and forwards only '/mcp'
+        # to the backend service.
+        location /secure-hash/mcp/ {
+            proxy_pass http://127.0.0.1:9231/mcp/; # Match the port in your service file
 
             # --- Headers for SSE ---
             proxy_set_header Host $host;
