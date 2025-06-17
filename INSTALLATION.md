@@ -59,19 +59,12 @@ PORT=4000 node dist/index.js
         server_name your_domain.com;
 
         location / {
-            proxy_pass http://127.0.0.1:3000;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection 'upgrade';
-            proxy_set_header Host $host;
-            proxy_cache_bypass $http_upgrade;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
+            return 404;
         }
 
-        # For SSE
-        location /sse {
+        # For SSE - Obscured URL
+        location /MAKESOMETHINGUPHERE {
+            # The path passed to the backend should be /sse
             proxy_pass http://127.0.0.1:3000/sse;
             proxy_set_header Connection '';
             proxy_http_version 1.1;
