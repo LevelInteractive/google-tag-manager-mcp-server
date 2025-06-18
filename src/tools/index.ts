@@ -17,7 +17,7 @@ import { versionTools } from "./versions";
 import { workspaceTools } from "./workspaces";
 import { zoneTools } from "./zones";
 
-export const tools = [
+const allTools = [
   ...accountTools,
   ...containerTools,
   ...destinationTools,
@@ -37,3 +37,9 @@ export const tools = [
   ...zoneTools,
   ...userPermissionTools,
 ];
+
+const allowedToolNames = ["get", "list"];
+
+export const tools = allTools.filter((tool) =>
+  allowedToolNames.includes(tool.name),
+);
