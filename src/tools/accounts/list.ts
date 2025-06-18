@@ -2,7 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const list = (server: McpServer): void =>
+export const list = (server: McpServer): void => {
   server.tool(
     "tag_manager_list_accounts",
     "Lists all GTM accounts accessible by the authenticated user",
@@ -28,3 +28,4 @@ export const list = (server: McpServer): void =>
       }
     },
   );
+}

@@ -4,7 +4,7 @@ import { z } from "zod";
 import { FolderSchemaFields } from "../../schemas/FolderSchema";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const moveEntitiesToFolder = (server: McpServer): void =>
+export const moveEntitiesToFolder = (server: McpServer): void => {
   server.tool(
     "tag_manager_move_entities_to_folder",
     "Moves entities to a GTM Folder",
@@ -71,3 +71,4 @@ export const moveEntitiesToFolder = (server: McpServer): void =>
       }
     },
   );
+}

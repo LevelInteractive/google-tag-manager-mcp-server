@@ -5,7 +5,7 @@ import { ZoneSchemaFields } from "../../schemas/ZoneSchema";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 import Schema$Zone = tagmanager_v2.Schema$Zone;
 
-export const update = (server: McpServer): void =>
+export const update = (server: McpServer): void => {
   server.tool(
     "tag_manager_update_zone",
     "Updates a GTM Zone",
@@ -46,3 +46,4 @@ export const update = (server: McpServer): void =>
       }
     },
   );
+}

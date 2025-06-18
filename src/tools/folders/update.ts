@@ -5,7 +5,7 @@ import { FolderSchemaFields } from "../../schemas/FolderSchema";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 import Schema$Folder = tagmanager_v2.Schema$Folder;
 
-export const update = (server: McpServer): void =>
+export const update = (server: McpServer): void => {
   server.tool(
     "tag_manager_update_folder",
     "Updates a GTM Folder",
@@ -46,3 +46,4 @@ export const update = (server: McpServer): void =>
       }
     },
   );
+}

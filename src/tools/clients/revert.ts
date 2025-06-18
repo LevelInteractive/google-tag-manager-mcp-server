@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const revert = (server: McpServer): void =>
+export const revert = (server: McpServer): void => {
   server.tool(
     "tag_manager_revert_client",
     "Reverts changes to a GTM Client in a GTM Workspace",
@@ -53,3 +53,4 @@ export const revert = (server: McpServer): void =>
       }
     },
   );
+}

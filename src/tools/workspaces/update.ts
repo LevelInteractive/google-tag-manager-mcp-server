@@ -5,7 +5,7 @@ import { WorkspaceSchemaFields } from "../../schemas/WorkspaceSchema";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 import Schema$Workspace = tagmanager_v2.Schema$Workspace;
 
-export const update = (server: McpServer): void =>
+export const update = (server: McpServer): void => {
   server.tool(
     "tag_manager_update_container_workspace",
     "Updates a Workspace",
@@ -46,3 +46,4 @@ export const update = (server: McpServer): void =>
       }
     },
   );
+}

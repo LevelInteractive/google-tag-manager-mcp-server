@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const remove = (server: McpServer): void =>
+export const remove = (server: McpServer): void => {
   server.tool(
     "tag_manager_delete_gtag_config",
     "Deletes a Google tag config",
@@ -54,3 +54,4 @@ export const remove = (server: McpServer): void =>
       }
     },
   );
+}

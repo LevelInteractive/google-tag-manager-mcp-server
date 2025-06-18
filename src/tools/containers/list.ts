@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const list = (server: McpServer): void =>
+export const list = (server: McpServer): void => {
   server.tool(
     "tag_manager_list_containers",
     "Lists all containers within the specified GTM account",
@@ -39,3 +39,4 @@ export const list = (server: McpServer): void =>
       }
     },
   );
+}

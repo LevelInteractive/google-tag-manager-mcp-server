@@ -5,7 +5,7 @@ import { WorkspaceSchemaFields } from "../../schemas/WorkspaceSchema";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 import Schema$Workspace = tagmanager_v2.Schema$Workspace;
 
-export const create = (server: McpServer): void =>
+export const create = (server: McpServer): void => {
   server.tool(
     "tag_manager_create_container_workspace",
     "Creates a Workspace",
@@ -37,3 +37,4 @@ export const create = (server: McpServer): void =>
       }
     },
   );
+}

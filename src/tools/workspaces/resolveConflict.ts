@@ -27,7 +27,7 @@ const EntitySchemaFields = z.union([
   z.object({ gtagConfig: z.object(GtagConfigSchemaFields) }),
 ]);
 
-export const resolveConflict = (server: McpServer): void =>
+export const resolveConflict = (server: McpServer): void => {
   server.tool(
     "tag_manager_resolve_workspace_conflict",
     "Resolves a merge conflict for a workspace entity",
@@ -107,3 +107,4 @@ export const resolveConflict = (server: McpServer): void =>
       }
     },
   );
+}

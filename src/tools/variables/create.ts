@@ -5,7 +5,7 @@ import { VariableSchemaFields } from "../../schemas/VariableSchema";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 import Schema$Variable = tagmanager_v2.Schema$Variable;
 
-export const create = (server: McpServer): void =>
+export const create = (server: McpServer): void => {
   server.tool(
     "tag_manager_create_variable",
     "Creates a GTM Variable",
@@ -43,3 +43,4 @@ export const create = (server: McpServer): void =>
       }
     },
   );
+}

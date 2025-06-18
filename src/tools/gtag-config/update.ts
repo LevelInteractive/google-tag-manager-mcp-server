@@ -5,7 +5,7 @@ import { GtagConfigSchemaFields } from "../../schemas/GtagConfigSchema";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 import Schema$GtagConfig = tagmanager_v2.Schema$GtagConfig;
 
-export const update = (server: McpServer): void =>
+export const update = (server: McpServer): void => {
   server.tool(
     "tag_manager_update_gtag_config",
     "Updates a Google tag config",
@@ -46,3 +46,4 @@ export const update = (server: McpServer): void =>
       }
     },
   );
+}

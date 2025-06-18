@@ -1,182 +1,137 @@
-# Installation
+# Nginx and systemd Setup Guide
 
-This document provides instructions on how to install and run the Google Tag Manager MCP Server in a production environment using nginx as a reverse proxy and systemd to manage the service.
+This guide provides a streamlined setup for running the MCP server in a production environment using Nginx as a reverse proxy and `systemd` to manage the server process.
 
-**Note:** This guide assumes you are deploying to a Linux server. `systemd` is not available on Windows.
+## 1. Prerequisites
 
-## Prerequisites
+-   **Node.js** (v18.x or later)
+-   **Nginx** installed on your server.
+-   **A domain name** pointing to your server's IP.
 
-*   Node.js (v18 or higher recommended)
-*   npm
-*   nginx
-*   A Linux server
+## 2. Application Setup
 
-## Installation
-
-1.  Clone the repository:
+1.  **Clone & Install:**
     ```bash
-    git clone https://github.com/stape-io/google-tag-manager-mcp-server.git
-    cd google-tag-manager-mcp-server
+    git clone https://github.com/your-repo/google-tag-manager-mcp-server-public-http.git
+    cd google-tag-manager-mcp-server-public-http
+    npm install
     ```
 
-2.  Install dependencies:
-    ```bash
-    npm install --omit=dev
-    ```
-
-3.  Build the application:
+2.  **Build the application:**
     ```bash
     npm run build
     ```
+    This compiles the TypeScript code into JavaScript, typically in a `dist` folder.
 
-## Running the Application
+3.  **(Optional) Create `.env` file:** If your application requires environment variables (e.g., `PORT`), create a `.env` file in the project root.
+    ```
+    PORT=3000
+    ```
 
-You can run the application directly using Node.js:
+## 3. Systemd Service Setup
 
-```bash
-node dist/index.js
-```
+Using `systemd` ensures your Node.js server runs as a background service and restarts automatically.
 
-By default, the application runs on port 3000. You can change the port by setting the `PORT` environment variable:
-
-```bash
-PORT=4000 node dist/index.js
-```
-
-## Configuring Nginx
-
-1.  Create a new nginx configuration file. The name does not matter, but something like `gtm-mcp.conf` is recommended. Place it in `/etc/nginx/sites-available/`.
-
+1.  **Create a service file:**
     ```bash
-    sudo nano /etc/nginx/sites-available/gtm-mcp.conf
+    sudo nano /etc/systemd/system/gtm-mcp-server.service
     ```
 
-2.  Add the following content to the file. **Remember to replace `your_domain.com` with your actual domain or server IP address.** The default port is 3000. If you have configured the application to run on a different port, you must update the `proxy_pass` directive.
+2.  **Add the following content.**
+    Update `User`, `Group`, `WorkingDirectory`, and `EnvironmentFile` with your specific paths and user details.
 
-    ```nginx
-    server {
-        listen 80;
-        server_name your_domain.com;
-
-        location / {
-            return 404;
-        }
-
-        # For SSE - Obscured URL
-        location /MAKESOMETHINGUPHERE {
-            # The path passed to the backend should be /sse
-            proxy_pass http://127.0.0.1:3000/sse;
-            proxy_set_header Connection '';
-            proxy_http_version 1.1;
-            chunked_transfer_encoding off;
-            proxy_buffering off;
-            proxy_cache off;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        }
-    }
-    ```
-
-3.  Enable the new configuration by creating a symbolic link to it in the `sites-enabled` directory:
-
-    ```bash
-    sudo ln -s /etc/nginx/sites-available/gtm-mcp.conf /etc/nginx/sites-enabled/
-    ```
-
-4.  Test the nginx configuration for syntax errors:
-
-    ```bash
-    sudo nginx -t
-    ```
-
-5.  If the test is successful, restart nginx to apply the changes:
-
-    ```bash
-    sudo systemctl restart nginx
-    ```
-
-## Configuring systemd
-
-1.  Create a new systemd service file:
-
-    ```bash
-    sudo nano /etc/systemd/system/gtm-mcp.service
-    ```
-
-2.  Add the following content to the file. **Remember to replace `/path/to/your/google-tag-manager-mcp-server-public` with the actual path to the project's root directory.** You can also customize the `User` and `Group` if needed.
-
-    ```systemd
+    ```ini
     [Unit]
-    Description=Google Tag Manager MCP Server
+    Description=GTM MCP Server
     After=network.target
 
     [Service]
-    # You can customize the user, group, and working directory.
-    # User=your-user
-    # Group=your-group
-
-    # The port can be controlled by setting the PORT environment variable.
-    # See the "Controlling the Port" section below.
-    EnvironmentFile=-/etc/default/gtm-mcp
-
-    # The working directory should be the root of the project.
-    WorkingDirectory=/path/to/your/google-tag-manager-mcp-server-public
-
-    # The command to start the application.
-    # Make sure to replace /usr/bin/node with the actual path to node if it's different.
+    User=www-data
+    Group=www-data
+    Type=simple
+    WorkingDirectory=/var/www/gtm-mcp-server
     ExecStart=/usr/bin/node dist/index.js
-
-    # Restart the service if it fails.
     Restart=on-failure
+
+    # Set the port directly. Alternatively, use EnvironmentFile=
+    Environment="PORT=9231"
 
     [Install]
     WantedBy=multi-user.target
     ```
 
-3.  Reload the systemd daemon to recognize the new service:
-
+3.  **Enable and start the service:**
     ```bash
     sudo systemctl daemon-reload
+    sudo systemctl enable gtm-mcp-server.service
+    sudo systemctl start gtm-mcp-server.service
     ```
 
-4.  Enable the service to start on boot:
-
+4.  **Check the status:**
     ```bash
-    sudo systemctl enable gtm-mcp.service
+    sudo systemctl status gtm-mcp-server.service
     ```
 
-5.  Start the service:
+## 4. Nginx Reverse Proxy Setup
 
+This configuration proxies requests to your Node.js application and correctly handles Server-Sent Events (SSE).
+
+1.  **Create an Nginx configuration file:**
+    Replace `your-domain.com` with your actual domain.
     ```bash
-    sudo systemctl start gtm-mcp.service
+    sudo nano /etc/nginx/sites-available/your-domain.com
     ```
 
-6.  You can check the status of the service using:
+2.  **Add the server block.** This example includes SSL setup with Let's Encrypt certificates.
+
+    ```nginx
+    server {
+        listen 80;
+        server_name your-domain.com;
+        return 301 https://$host$request_uri; # Redirect HTTP to HTTPS
+    }
+
+    server {
+        listen 443 ssl http2;
+        server_name your-domain.com;
+
+        # SSL Config (update with your cert paths)
+        ssl_certificate /etc/letsencrypt/live/your-domain.com/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/your-domain.com/privkey.pem;
+
+        # Return 404 for all other requests
+        location / {
+            return 404;
+        }
+
+        # The 'secure-hash' can be any secret path component.
+        # The trailing slash on location and proxy_pass is important
+        # as it strips '/secure-hash/mcp' and forwards only '/mcp'
+        # to the backend service.
+        location /secure-hash/mcp/ {
+            proxy_pass http://127.0.0.1:9231/mcp/; # Match the port in your service file
+
+            # --- Headers for SSE ---
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            
+            # --- SSE Streaming Specifics ---
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_buffering off;
+            proxy_cache off;
+            proxy_read_timeout 12h; # Keep connection open
+        }
+    }
+    ```
+
+3.  **Enable the site and restart Nginx:**
     ```bash
-    sudo systemctl status gtm-mcp.service
+    sudo ln -s /etc/nginx/sites-available/your-domain.com /etc/nginx/sites-enabled/
+    sudo nginx -t
+    sudo systemctl restart nginx
     ```
 
-## Controlling the Port
-
-The application port can be controlled via the `PORT` environment variable. When using the systemd service, you can set this variable in an environment file.
-
-1.  Create a file at `/etc/default/gtm-mcp`:
-
-    ```bash
-    sudo nano /etc/default/gtm-mcp
-    ```
-
-2.  Add the `PORT` variable to this file. For example, to run the application on port 4000:
-
-    ```
-    PORT=4000
-    ```
-
-3.  Restart the systemd service to apply the new port:
-
-    ```bash
-    sudo systemctl restart gtm-mcp.service
-    ```
-
-4.  **Important:** If you change the port, remember to also update the `proxy_pass` directive in your nginx configuration to match the new port. 
+Your server should now be accessible via `https://your-domain.com/mcp`. 

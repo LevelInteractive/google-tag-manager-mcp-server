@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const unlink = (server: McpServer): void =>
+export const unlink = (server: McpServer): void => {
   server.tool(
     "tag_manager_delete_container_destination",
     "Deletes a destination from a container",
@@ -63,3 +63,4 @@ export const unlink = (server: McpServer): void =>
       }
     },
   );
+}

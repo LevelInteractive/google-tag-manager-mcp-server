@@ -5,7 +5,7 @@ import { CustomTemplateSchemaFields } from "../../schemas/CustomTemplateSchema";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 import Schema$CustomTemplate = tagmanager_v2.Schema$CustomTemplate;
 
-export const create = (server: McpServer): void =>
+export const create = (server: McpServer): void => {
   server.tool(
     "tag_manager_create_template",
     "Creates a GTM Custom Template",
@@ -43,3 +43,4 @@ export const create = (server: McpServer): void =>
       }
     },
   );
+}

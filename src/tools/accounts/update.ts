@@ -3,7 +3,7 @@ import { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { AccountSchemaFields } from "../../schemas/AccountSchema";
 import { createErrorResponse, getTagManagerClient, log } from "../../utils";
 
-export const update = (server: McpServer): void =>
+export const update = (server: McpServer): void => {
   server.tool(
     "tag_manager_update_account",
     "Updates a GTM Account",
@@ -34,3 +34,4 @@ export const update = (server: McpServer): void =>
       }
     },
   );
+}
