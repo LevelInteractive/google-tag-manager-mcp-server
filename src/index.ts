@@ -24,7 +24,12 @@ const transports: Record<string, SSEServerTransport> = {};
 
 // Create HTTP server
 const httpServer = createServer(async (req: IncomingMessage, res: ServerResponse) => {
-  const { pathname, query } = parse(req.url || '', true);
+  const parsedUrl = parse(req.url || '', true);
+  let pathname = parsedUrl.pathname || '/';
+  if (pathname.length > 1 && pathname.endsWith('/')) {
+    pathname = pathname.slice(0, -1);
+  }
+  const query = parsedUrl.query;
 
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -39,7 +44,7 @@ const httpServer = createServer(async (req: IncomingMessage, res: ServerResponse
   }
 
   // Handle SSE endpoint for establishing the stream
-  if ((pathname === '/sse' || pathname === '/sse/') && req.method === 'GET') {
+  if (pathname === '/sse' && req.method === 'GET') {
     log('SSE connection established');
     
     try {
