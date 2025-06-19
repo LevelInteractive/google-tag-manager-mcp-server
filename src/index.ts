@@ -7,9 +7,6 @@ import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
 
 loadEnv();
 
-const ssePath = '/sse/';
-const sseMessagePath = '/sse/message';
-
 const server = new McpServer({
   name: "google-tag-manager",
   version: getPackageVersion(),
@@ -42,12 +39,12 @@ const httpServer = createServer(async (req: IncomingMessage, res: ServerResponse
   }
 
   // Handle SSE endpoint for establishing the stream
-  if (pathname === ssePath && req.method === 'GET') {
+  if ((pathname === '/sse' || pathname === '/sse/') && req.method === 'GET') {
     log('SSE connection established');
     
     try {
       // Create SSE transport - it will handle its own headers
-      const transport = new SSEServerTransport(sseMessagePath, res as any);
+      const transport = new SSEServerTransport('/sse/message', res as any);
       
       // Store the transport by session ID
       const sessionId = transport.sessionId;
@@ -74,7 +71,7 @@ const httpServer = createServer(async (req: IncomingMessage, res: ServerResponse
   }
 
   // Handle SSE message endpoint
-  if (pathname === sseMessagePath && req.method === 'POST') {
+  if (pathname === '/sse/message' && req.method === 'POST') {
     log('Received POST request to /sse/message');
     
     // Extract session ID from URL query parameter
@@ -137,7 +134,7 @@ const httpServer = createServer(async (req: IncomingMessage, res: ServerResponse
 
 httpServer.listen(PORT, () => {
   log(`MCP SSE server running on http://localhost:${PORT}`);
-  log(`SSE endpoint: http://localhost:${PORT}${ssePath}`);
+  log(`SSE endpoint: http://localhost:${PORT}/sse`);
 });
 
 // Graceful shutdown
