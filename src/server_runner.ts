@@ -46,8 +46,8 @@ export const ExpressSseMcpServer = (
   app.get('/sse', async (req: Request, res: Response) => {
     console.log('Received GET request to /sse (establishing SSE stream)');
     try {
-      // The endpoint for POST messages is '/mcp/messages'
-      const transport = new SSEServerTransport('/mcp/messages', res);
+      // The endpoint for POST messages is '/sse/messages'
+      const transport = new SSEServerTransport('/sse/messages', res);
 
       // Store the transport by session ID
       const sessionId = transport.sessionId;
@@ -72,8 +72,8 @@ export const ExpressSseMcpServer = (
   });
 
   // Messages endpoint for receiving client JSON-RPC requests
-  app.post('/mcp/messages', async (req: Request, res: Response) => {
-    console.log('Received POST request to /mcp/messages');
+  app.post('/sse/messages', async (req: Request, res: Response) => {
+    console.log('Received POST request to /sse/messages');
 
     // Extract session ID from URL query parameter
     const sessionId = req.query.sessionId as string | undefined;
