@@ -62,18 +62,23 @@ PORT=4000 node dist/index.js
             return 404;
         }
 
-        # For SSE - Obscured URL
-        location /MAKESOMETHINGUPHERE {
-            # The path passed to the backend should be /sse
-            proxy_pass http://127.0.0.1:3000/sse;
-            proxy_set_header Connection '';
-            proxy_http_version 1.1;
-            chunked_transfer_encoding off;
-            proxy_buffering off;
-            proxy_cache off;
+        # For SSE - Proxy to the MCP server
+        location /sse/ {
+            # The backend address and port.
+            proxy_pass http://127.0.0.1:9232;
+
+            # --- Headers for SSE ---
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+
+            # --- SSE Streaming Specifics ---
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_buffering off;
+            proxy_cache off;
+            proxy_read_timeout 12h; # Keep connection open
         }
     }
     ```
@@ -157,9 +162,9 @@ PORT=4000 node dist/index.js
     sudo systemctl status gtm-mcp.service
     ```
 
-## Controlling the Port
+## Controlling the Port and SSE Path
 
-The application port can be controlled via the `PORT` environment variable. When using the systemd service, you can set this variable in an environment file.
+The application port and SSE base path can be controlled via environment variables. When using the systemd service, you can set these variables in an environment file.
 
 1.  Create a file at `/etc/default/gtm-mcp`:
 
@@ -167,10 +172,11 @@ The application port can be controlled via the `PORT` environment variable. When
     sudo nano /etc/default/gtm-mcp
     ```
 
-2.  Add the `PORT` variable to this file. For example, to run the application on port 4000:
+2.  Add the variables to this file. For example, to run the application on port 4000 with an SSE path of `/sse/`:
 
     ```
     PORT=4000
+    MCP_SSE_BASE_PATH=/sse/
     ```
 
 3.  Restart the systemd service to apply the new port:
@@ -179,4 +185,4 @@ The application port can be controlled via the `PORT` environment variable. When
     sudo systemctl restart gtm-mcp.service
     ```
 
-4.  **Important:** If you change the port, remember to also update the `proxy_pass` directive in your nginx configuration to match the new port. 
+4.  **Important:** If you change the port or path, remember to also update the `proxy_pass` directive in your nginx configuration to match the new settings. 
