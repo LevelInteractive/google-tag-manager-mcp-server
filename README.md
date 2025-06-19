@@ -1,6 +1,6 @@
 # MCP Server for Google Tag Manager
 
-This is a MCP server that provides an interface to the Google Tag Manager API via an HTTP/SSE interface.
+This is a MCP server that provides an interface to the Google Tag Manager API via a Server-Sent Events (SSE) interface.
 
 ## Prerequisites
 
@@ -13,7 +13,7 @@ This is a MCP server that provides an interface to the Google Tag Manager API vi
 1.  **Clone the repository:**
     ```bash
     git clone https://github.com/stape-io/google-tag-manager-mcp-server.git
-    cd google-tag-manager-mcp-server/old
+    cd google-tag-manager-mcp-server
     ```
 
 2.  **Install dependencies:**
@@ -23,7 +23,7 @@ This is a MCP server that provides an interface to the Google Tag Manager API vi
 
 3.  **Configure environment variables:**
 
-    Create a `.env` file in the `old` directory and add the necessary configuration. You can use one of the following authentication methods:
+    Create a `.env` file in the repository root and add the necessary configuration. You can use one of the following authentication methods:
 
     **a) Service Account (File Path):**
     ```
@@ -58,8 +58,13 @@ This is a MCP server that provides an interface to the Google Tag Manager API vi
 
 ## API Endpoints
 
-The server exposes the following endpoints:
-
--   `GET /sse`: Establishes a Server-Sent Events (SSE) connection for the MCP transport.
--   `POST /sse/message`: The endpoint where the client sends messages to the server over the established SSE connection.
+-   `GET /mcp`: Establishes a Server-Sent Events (SSE) connection for the MCP transport.
+-   `POST /mcp`: The endpoint where the client sends messages to the server over the established SSE connection.
 -   `GET /health`: A health check endpoint that returns the server's status.
+
+## Tools
+
+This server exposes two primary tools compatible with ChatGPT deep research:
+
+- **search** – Search GTM containers within an account by name or description.
+- **fetch** – Retrieve detailed metadata for a specific container by ID.

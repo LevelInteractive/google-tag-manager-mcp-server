@@ -1,7 +1,7 @@
 import express from "express";
 import { randomUUID } from "node:crypto";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
+import { ServerSentEventsServerTransport } from "@modelcontextprotocol/sdk/server/serverSentEvents.js";
 import { InMemoryEventStore } from "@modelcontextprotocol/sdk/examples/shared/inMemoryEventStore.js";
 import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
 
@@ -15,7 +15,7 @@ interface ServerOptions {
   homepage?: string;
 }
 
-export const ExpressHttpStreamableMcpServer = (
+export const ExpressSseMcpServer = (
   options: ServerOptions,
   setupCb: (server: McpServer) => void,
 ) => {
@@ -43,7 +43,7 @@ export const ExpressHttpStreamableMcpServer = (
   app.use(express.json());
 
   // Map to store transports by session ID
-  const transports: { [sessionId: string]: StreamableHTTPServerTransport } = {};
+  const transports: { [sessionId: string]: ServerSentEventsServerTransport } = {};
 
   // Handle POST requests for client-to-server communication
   app.post("/mcp", async (req, res) => {
@@ -61,7 +61,7 @@ export const ExpressHttpStreamableMcpServer = (
     try {
       // Check for existing session ID
       const sessionId = req.headers["mcp-session-id"] as string | undefined;
-      let transport: StreamableHTTPServerTransport;
+      let transport: ServerSentEventsServerTransport;
 
       if (sessionId && transports[sessionId]) {
         // Reuse existing transport
@@ -71,7 +71,7 @@ export const ExpressHttpStreamableMcpServer = (
         console.log(`New session request: ${req.body.method}`);
         // New initialization request
         const eventStore = new InMemoryEventStore();
-        transport = new StreamableHTTPServerTransport({
+        transport = new ServerSentEventsServerTransport({
           sessionIdGenerator: () => randomUUID(),
           enableJsonResponse: true,
           eventStore, // Enable resumability
@@ -240,7 +240,7 @@ export const ExpressHttpStreamableMcpServer = (
   });
 
   const express_server = app.listen(PORT, () => {
-    console.log(`MCP Streamable HTTP Server listening on port ${PORT}`);
+    console.log(`MCP SSE Server listening on port ${PORT}`);
   });
 
   // Add server event listeners for better visibility

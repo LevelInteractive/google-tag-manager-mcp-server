@@ -1,12 +1,11 @@
-import { ExpressHttpStreamableMcpServer } from "./server_runner.js";
+import { ExpressSseMcpServer } from "./server_runner.js";
 import { getPackageVersion, loadEnv } from "./utils/index.js";
 import { tools } from "./tools/index.js";
 
 loadEnv();
 
-console.log("Initializing MCP Streamable-HTTP Server with Express");
-
-ExpressHttpStreamableMcpServer(
+console.log("Initializing MCP SSE Server with Express");
+ExpressSseMcpServer(
   {
     name: "google-tag-manager",
     version: getPackageVersion(),

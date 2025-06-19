@@ -16,6 +16,7 @@ import { versionHeadersTools } from "./version-headers";
 import { versionTools } from "./versions";
 import { workspaceTools } from "./workspaces";
 import { zoneTools } from "./zones";
+import { search, fetch } from "./deepResearch";
 
 const allTools = [
   ...accountTools,
@@ -36,9 +37,11 @@ const allTools = [
   ...variableTools,
   ...zoneTools,
   ...userPermissionTools,
+  search,
+  fetch,
 ];
 
-const allowedToolNames = ["get", "list"];
+const allowedToolNames = ["get", "list", "search", "fetch"];
 
 export const tools = allTools.filter((tool) =>
   allowedToolNames.includes(tool.name),
