@@ -46,8 +46,8 @@ export const ExpressSseMcpServer = (
   app.get('/sse', async (req: Request, res: Response) => {
     console.log('Received GET request to /sse (establishing SSE stream)');
     try {
-      // The endpoint for POST messages is '/sse/messages'
-      const transport = new SSEServerTransport('/sse/messages', res);
+      // The endpoint for POST messages is 'messages' (relative to /sse)
+      const transport = new SSEServerTransport('messages', res);
 
       // Store the transport by session ID
       const sessionId = transport.sessionId;
