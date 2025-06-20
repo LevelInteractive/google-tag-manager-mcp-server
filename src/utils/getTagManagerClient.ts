@@ -10,7 +10,7 @@ export async function getTagManagerClient(
   try {
     const auth = new google.auth.GoogleAuth({
       scopes,
-      keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+      keyFile: "credentials.json",
     });
 
     return google.tagmanager({
